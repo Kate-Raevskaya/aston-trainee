@@ -1,36 +1,37 @@
-//Как исправить "одни пятёрки"?
+// Как исправить "одни пятёрки"?
 
-// var result = [];
-// for (var i = 0; i < 5; i++) {
-//     result[i] = function () {
-//         console.log(i);
-//     };
-// }
-// result[0](); //5
-// result[1](); //5
-// result[2](); //5
-// result[3](); //5
-// result[4](); //5
+var result = [];
+for (let i = 0; i < 5; i++) {
+    result[i] = function () {
+        console.log(i);
+    };
+}
+result[0](); //5
+result[1](); //5
+result[2](); //5
+result[3](); //5
+result[4](); //5
 
 //////////////////////////////////////////////////
 
-// function getGroup() {
-//     let students = [];
-//     let i = 0;
-//     while (i < 10) {
-//         students[i] = function() {
-//             console.log(i);
-//         }
-//         i++
-//     }
-//
-//     return students;
-// }
-//
-// let group = getGroup();
-//
-// group[0](); // 10 как исправить на 0
-// group[5](); // 10                  5
+function getGroup() {
+    let students = [];
+    let i = 0;
+    while (i < 10) {
+        let number = i;
+        students[i] = function() {
+            console.log(number);
+        }
+        i++
+    }
+
+    return students;
+}
+
+let group = getGroup();
+
+group[0](); // 10 как исправить на 0
+group[5](); // 10                  5
 
 //////////////////////////////////////////////////
 
@@ -50,6 +51,15 @@
 // const result2 = multiply(5)(2)(3);
 // console.log(result2); // Вывод: 30
 
+function multiply(a){
+    return function(b) {
+        if(b !== undefined) {
+            return multiply(a * b);
+        }
+        return a;
+    };
+}
+
 /////////////////////////
 // Написать функцию getUniqArray(arr), которая на вход принимает массив чисел и
 // возвращает массив уникальных чисел.
@@ -57,3 +67,10 @@
 //     Текст ошибки: "В getUniqArray был передан невалидный параметр. Аргумент arr
 // должен быть массивом чисел".
 
+function getUniqArray(arr) {
+    if(!arr.every(e => typeof e === 'number')) {
+        throw new Error("В getUniqArray был передан невалидный параметр. Аргумент arr должен быть массивом чисел");
+    }
+    let result = new Set(arr);
+    return [...result];
+}
