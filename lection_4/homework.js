@@ -155,16 +155,20 @@ function baz(callback) {
 // в функциях foo, bar,baz запрещено что-либо менять
 // подсказка: нужны промисы =))
 
-function func() {
-    return new Promise(resolve => foo(resolve))
-        .then(result => console.log(result))
-        .then(() => new Promise(resolve => bar(resolve)))
-        .then(result => console.log(result))
-        .then(() => new Promise(resolve => baz(resolve)))
-        .then(result => console.log(result))
+let promisify = (func) => new Promise((resolve) => {
+    return func(resolve)
+})
+
+function fooBarBaz() {
+    Promise.all([
+        promisify(foo),
+        promisify(bar),
+        promisify(baz)
+    ]).then(res => res.forEach(result => console.log(result)))
+
 }
 
-func();
+fooBarBaz()
 
 ///////////////
 // todo Объяснить код, рассказать какие консоли и в какой последовательности будут, а затем переписать его на промисы
